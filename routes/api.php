@@ -10,4 +10,4 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::apiResource('events', EventsController::class);
-Route::apiResource('events.attendee', AttendeeController::class)->scoped(['attendee' => 'event']);
+Route::apiResource('events.attendee', AttendeeController::class)->scoped();
