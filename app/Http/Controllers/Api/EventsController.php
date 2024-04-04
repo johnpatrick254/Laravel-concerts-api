@@ -5,11 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
-use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->authorizeResource(Event::class,'event');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -32,7 +38,7 @@ class EventsController extends Controller
                 "end_time" => "required|date|after:start_time",
                 "description" => "nullable|string"
             ]),
-            "user_id" => 1
+            "user_id" => request()->user()->id
         ]);
         $event->load('user');
         $event->load('attendees');
